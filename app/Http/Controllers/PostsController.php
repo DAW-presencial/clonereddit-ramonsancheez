@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorepostsRequest;
-use App\Http\Requests\UpdatepostsRequest;
 use App\Models\posts;
 
 class PostsController extends Controller
@@ -25,7 +24,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -36,7 +35,18 @@ class PostsController extends Controller
      */
     public function store(StorepostsRequest $request)
     {
-        //
+        $post = new posts();
+        $post->title = $request->title;
+        $post->extract = $request->extract;
+        $post->content = $request->content;
+        $post->expirable = $request->expirable;
+        $post->caducable = $request->caducable;
+        $post->comentable = $request->comentable;
+        $post->access = $request->access;
+
+        $post->save();
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -56,9 +66,10 @@ class PostsController extends Controller
      * @param  \App\Models\posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function edit(posts $posts)
+    public function edit($id)
     {
-        //
+        $post = posts::find($id);
+        return view('posts.form', compact('post'));
     }
 
     /**
@@ -68,9 +79,20 @@ class PostsController extends Controller
      * @param  \App\Models\posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatepostsRequest $request, posts $posts)
+    public function update(StorepostsRequest $request, posts $id)
     {
-        //
+        $post = posts::find($id);
+        $post->title = $request->title;
+        $post->extract = $request->extract;
+        $post->content = $request->content;
+        $post->caducable = $request->caducable;
+        $post->expirable = $request->expirable;
+        $post->comentable = $request->comentable;
+        $post->public = $request->public;
+        
+        $post->save();
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -79,8 +101,10 @@ class PostsController extends Controller
      * @param  \App\Models\posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(posts $posts)
+    public function destroy(posts $id)
     {
-        //
+        $post = posts::find($id);
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }

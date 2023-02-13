@@ -9,7 +9,7 @@
 </head>
     <body>
 
-    <form action="posts" method="post">
+    <form action="{{route('posts.update', ['post' => $post->id])}}" method="post">
         @csrf
         <div class="form-group">
             <label for="title">@lang('Title')</label>
@@ -43,7 +43,7 @@
                 <option value="private">@lang('Private')</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
     </form>
     
     </body>
