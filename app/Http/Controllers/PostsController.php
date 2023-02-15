@@ -106,9 +106,9 @@ class PostsController extends Controller
      * @param  \App\Models\Post  $Post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $id)
+    public function destroy(int $id)
     {
-        $post = Post::find($id);
+        $post = Post::where('id', $id)->first();
         $post->delete();
         return redirect()->route('posts.index');
     }
