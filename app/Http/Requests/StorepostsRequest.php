@@ -24,7 +24,13 @@ class StorepostsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required',
+            'extract' => 'required',
+            'content' => 'required',
+            'expirable' => 'required',
+            'caducable' => 'required',
+            'comentable' => 'required',
+            'access' => 'required',
         ];
     }
 }

@@ -17,8 +17,6 @@ use App\Http\Controllers\PostsController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::resource('/posts', PostsController::class);
 
-Route::fallback(function () {
-    return redirect()->route('posts.create');
-});

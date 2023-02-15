@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorepostsRequest;
-use App\Models\posts;
+use App\Models\Post;
 
 class PostsController extends Controller
 {
@@ -14,7 +14,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Post::all());
     }
 
     /**
@@ -35,7 +35,7 @@ class PostsController extends Controller
      */
     public function store(StorepostsRequest $request)
     {
-        $post = new posts();
+        $post = new Post();
         $post->title = $request->title;
         $post->extract = $request->extract;
         $post->content = $request->content;
@@ -52,44 +52,49 @@ class PostsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\posts  $posts
+     * @param  \App\Models\Post  $Post
      * @return \Illuminate\Http\Response
      */
-    public function show(posts $posts)
+    public function show($id)
     {
-        //
+        return response()->json(Post::find($id));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\posts  $posts
+     * @param  \App\Models\Post  $Post
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $post = posts::find($id);
-        return view('posts.form', compact('post'));
+        $post = Post::find($id);
+        return view('edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdatepostsRequest  $request
-     * @param  \App\Models\posts  $posts
+     * @param  \App\Models\Post  $Post
      * @return \Illuminate\Http\Response
      */
-    public function update(StorepostsRequest $request, posts $id)
+    public function update(StorepostsRequest $request, int $id)
     {
-        $post = posts::find($id);
-        $post->title = $request->title;
-        $post->extract = $request->extract;
-        $post->content = $request->content;
-        $post->caducable = $request->caducable;
-        $post->expirable = $request->expirable;
-        $post->comentable = $request->comentable;
-        $post->public = $request->public;
-        
+        $data = $request->validated();
+
+
+        $post = Post::where('id', $id)->first();
+
+        $post->title = $data['title'];
+        $post->extract = $data['extract'];
+        $post->content = $data['content'];
+        $post->caducable = $data['caducable'];
+        $post->expirable = $data['expirable'];
+        $post->comentable = $data['comentable'];
+        $post->access = $data['access'];
+
+
         $post->save();
 
         return redirect()->route('posts.index');
@@ -98,12 +103,12 @@ class PostsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\posts  $posts
+     * @param  \App\Models\Post  $Post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(posts $id)
+    public function destroy(Post $id)
     {
-        $post = posts::find($id);
+        $post = Post::find($id);
         $post->delete();
         return redirect()->route('posts.index');
     }

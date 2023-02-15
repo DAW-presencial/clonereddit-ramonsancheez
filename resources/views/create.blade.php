@@ -9,7 +9,7 @@
 </head>
     <body>
 
-    <form action="posts" method="post">
+    <form action="{{route('posts.store')}}" method="post">
         @csrf
         <div class="form-group">
             <label for="title">@lang('Title')</label>
