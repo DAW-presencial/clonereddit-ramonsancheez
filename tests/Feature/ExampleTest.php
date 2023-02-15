@@ -15,7 +15,60 @@ class ExampleTest extends TestCase
     public function test_the_application_returns_a_successful_response()
     {
         $response = $this->get('/');
-
         $response->assertStatus(200);
+    }
+
+    public function test_the_application_returns_a_404_response()
+    {
+        $response = $this->get('/nonexistent');
+        $response->assertStatus(404);
+    }
+
+    public function test_the_application_returns_a_200_response()
+    {
+        $response = $this->get('/posts');
+        $response->assertStatus(200);
+    }
+
+    public function test_the_application_returns_a_200_response_for_post()
+    {
+        $response = $this->get('/posts/1');
+        $response->assertStatus(200);
+    }
+
+    public function test_the_application_returns_a_404_response_for_post()
+    {
+        $response = $this->get('/posts/1000');
+        $response->assertStatus(404);
+    }
+
+    public function test_the_application_returns_a_200_response_for_post_create()
+    {
+        $response = $this->get('/posts/create');
+        $response->assertStatus(200);
+    }
+
+    public function test_the_application_returns_a_200_response_for_post_edit()
+    {
+        $response = $this->get('/posts/1/edit');
+        $response->assertStatus(200);
+    }
+
+    public function test_the_application_returns_a_404_response_for_post_edit()
+    {
+        $response = $this->get('/posts/1000/edit');
+        $response->assertStatus(404);
+    }
+
+    public function test_the_application_returns_a_200_response_for_post_delete()
+    {
+        $response = $this->get('/posts/1/destroy');
+        $response->assertStatus(200);
+    }
+
+    public function test_the_application_returns_a_404_response_for_post_delete()
+    {
+        $response = $this->get('/posts/1000/destroy');
+        $response->assertStatus(404);
     }
 }
