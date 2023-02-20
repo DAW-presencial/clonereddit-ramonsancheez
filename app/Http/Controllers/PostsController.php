@@ -24,7 +24,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('create');
+        return view('/posts/create');
     }
 
     /**
@@ -57,7 +57,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Post::find($id));
+        return response()->json(Post::findOrFail($id));
     }
 
     /**
@@ -68,8 +68,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
-        return view('edit', compact('post'));
+        $post = Post::findOrFail($id);
+        return view('/posts/edit', compact('post'));
     }
 
     /**
@@ -108,7 +108,7 @@ class PostsController extends Controller
      */
     public function destroy(int $id)
     {
-        $post = Post::where('id', $id)->first();
+        $post = Post::findOrFail($id)->first();
         $post->delete();
         return redirect()->route('posts.index');
     }
